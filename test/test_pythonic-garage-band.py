@@ -1,11 +1,14 @@
 import pytest
+import json
+import yaml
 
-from pythonic_garage_band.band import (
+from pythonic_garage_band.bands import (
     Band,
     Musician,
     Guitarist,
     Bassist,
     Drummer,
+    Keyboardist
 )
 
 
@@ -132,22 +135,22 @@ def test_play_solos_for_whole_band(one_band):
 
 
 # STRETCH TEST
-# # @pytest.mark.skip("todo")
-# def test_class_tracks_instances():
-#     assert Band.to_list() == []
-#     the_nobodies = Band("The Nobodies", [])
-#     assert len(Band.instances) == 1
-#     assert Band.instances[0] == the_nobodies
+# @pytest.mark.skip("todo")
+def test_class_tracks_instances():
+    assert Band.to_list() == []
+    the_nobodies = Band("The Nobodies", [])
+    assert len(Band.instances) == 1
+    assert Band.instances[0] == the_nobodies.__repr__()
 
 
 # STRETCH TEST
 # @pytest.mark.skip("todo")
-# def test_to_list():
-#     assert Band.to_list() == []
-#     the_nobodies = Band("The Nobodies", [])
-#     all_bands = Band.to_list()
-#     assert len(all_bands) == 1
-#     assert all_bands[0] == the_nobodies
+def test_to_list():
+    assert Band.to_list() == []
+    the_nobodies = Band("The Nobodies", [])
+    all_bands = Band.to_list()
+    assert len(all_bands) == 1
+    assert all_bands[0] == the_nobodies.__repr__()
 
 
 #######################
@@ -197,39 +200,45 @@ def clean():
 
 
 # @pytest.mark.skip("stretch")
-# def test_from_file():
-#     with open("assets/bands.json") as f:
-#         bands = json.loads(f.read())
+def test_from_file():
+    with open("assets/bands.json") as f:
+        bands = json.loads(f.read())
 
-#     assert len(bands) == 1
+    assert len(bands) == 1
 
-#     nirvana_data = bands[0]
+    nirvana_data = bands[0]
 
-#     nirvana = Band(nirvana_data["name"], nirvana_data["members"])
+    nirvana_members = [
+        Guitarist(nirvana_data["members"][0]["name"]),
+        Bassist(nirvana_data["members"][1]["name"]),
+        Drummer(nirvana_data["members"][2]["name"]),
+    ]
 
-#     assert nirvana.name == "Nirvana"
+    nirvana = Band(nirvana_data["name"], nirvana_members)
 
-
-# @pytest.mark.skip("stretch")
-# def test_from_yaml():
-#     bands = yaml.safe_load(open("assets/bands.yml"))
-
-#     assert bands[0]["name"] == "Nirvana"
-
-#     assert bands[1]["name"] == "The Pixies"
+    assert nirvana.name == "Nirvana"
 
 
 # @pytest.mark.skip("stretch")
-# def test_abstract_musician():
-#     with pytest.raises(TypeError):
-#         Musician("nobody", "nothing", "silence")
+def test_from_yaml():
+    bands = yaml.safe_load(open("assets/bands.yml"))
+
+    assert bands[0]["name"] == "Nirvana"
+
+    assert bands[1]["name"] == "The Pixies"
+
+
+# @pytest.mark.skip("stretch")
+def test_abstract_musician():
+    with pytest.raises(TypeError):
+        Musician("nobody", "nothing", "silence")
 
 
 # @pytest.mark.skip("stretch")
 # def test_incomplete_keyboardist():
 #     with pytest.raises(TypeError) as e:
 #         Keyboardist("Booker T. Jones")
-
+#
 #     assert (
 #         repr(e)
 #         == """<ExceptionInfo TypeError("Can't instantiate abstract class Keyboardist with abstract method some_method_that_must_be_implemented_in_base_class") tblen=1>"""  # noqa: E501
