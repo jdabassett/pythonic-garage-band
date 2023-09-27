@@ -1,0 +1,17 @@
+---
+- name: Nirvana
+  members:
+  - name: Kurt Cobain
+    instrument: Guitar
+  - name: Krist Novoselic
+    instrument: Bass
+  - name: Dave Grohl
+    instrument: Drums
+- name: The Pixies
+  members:
+  - name: Boogers1
+    instrument: Guitar
+  - name: Boogers2
+    instrument: Bass
+  - name: Boogers3
+    instrument: Drums
